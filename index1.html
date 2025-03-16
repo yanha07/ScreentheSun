@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScreenTheSun</title>
+    <link rel="stylesheet" href="style1.css">
+    <script defer src="script1.js"></script>
+</head>
+<body>
+    <header class="header">
+        <img src="suntracklogo.jpg" alt="ScreenTheSun Logo" class="logo">
+        <nav class="navbar">
+            <a href="index1.html">Home</a>
+            <a href="signorlogin.html">Login</a> 
+            <a href="quiz.html">Quiz</a>
+            <a href="recommendations.html">Recommendations</a>
+            <a href="#uv-alerts">UV Alerts</a>
+        </nav>
+    </header>
+
+    <section id="home" class="hero">
+        <h1>Welcome to ScreenTheSun!</h1>
+        <p>Your personalized sunscreen recommendation platform</p>
+        <button class="cta-button" onclick="scrollToSignup()">☀️ Get Started</button>
+    </section>
+
+    <section id="about" class="container">
+        <h2>What ScreenTheSun Offers</h2>
+        <p>ScreenTheSun is your go-to source for tracking UV exposure and protecting your skin while enjoying the outdoors. We provide:</p>
+        <div class="features">
+            <div class="feature-box">
+                <h3>🌞 Real-Time UV Index</h3>
+                <p>Get the latest UV index for your location.</p>
+            </div>
+            <div class="feature-box">
+                <h3>🧴 Sunscreen Suggestions</h3>
+                <p>We recommend the best sunscreen based on the UV level.</p>
+            </div>
+            <div class="feature-box">
+                <h3>⏰ Sun Protection Reminders</h3>
+                <p>Timely alerts to apply sunscreen and stay safe.</p>
+            </div>
+            <div class="feature-box">
+                <h3>🏞️ Optimal Outdoor Times</h3>
+                <p>Find out the best times for outdoor activities.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="uv-alerts" class="container">
+        <h2>UV Alerts</h2>
+        <p>Stay updated with real-time UV index alerts.</p>
+    </section>
+
+    <section id="quiz" class="container" onclick="window.location.href='quiz.html'" style="cursor: pointer;">
+        <h2>What is your Skintype?</h2>
+        <p>Answer a few questions to determine your skin type.</p>
+    </section>
+
+    <section id="recommendations" class="container" onclick="window.location.href='recommendations.html'" style="cursor: pointer;">
+        <h2>Recommended Sunscreens</h2>
+        <p>Your general sunscreen recommendations will appear here.</p>
+    </section>
+    
+
+</body>
+</html>
