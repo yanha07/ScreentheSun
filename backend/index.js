@@ -1,15 +1,41 @@
-const express = require("express");
+import express from 'express';
+import bodyParser from 'body-parser';
+import dotenv from 'dotenv';
+import cors  from 'cors';
+
+import { databaseconnection } from './config/database.js';
+import userRoutes from './routes/userRoutes.js';  // Fixed import
+
+// Load environment variables
+dotenv.config();
+
+// Initialize Express app
 const app = express();
-const bodyParser=require('body-parser');
-const cors = require('cors');
-require('dotenv').config();
 
+// Middleware
 app.use(express.json());
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(cors({
-    origin : ['']
-}))
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
 
-app.listen(()=>{
-    console.log("app is listening on port 8000");
-})
+
+
+// Connect to database
+databaseconnection();
+
+// Define Routes
+app.use('/api/v1/userRoutes', userRoutes);
+
+app.post('', (req, res) => {
+    res.send('Done');
+});
+
+// Home route
+app.get('/', (req, res) => {
+    res.send('Kloset API is running');
+});
+
+// Start server
+const PORT = process.env.PORT || 8000;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});

@@ -53,14 +53,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Name Validation
     function isValidName(name) {
-        return /^[A-Za-z]{3,}$/.test(name);
+        return /^[A-Za-z\s]{3,}$/.test(name);
     }
 
     // Handle signup form submission
     document.getElementById("signup-form").addEventListener("submit", function (event) {
         event.preventDefault();
 
-        let name = document.getElementById("signup-name").value.trim();
+    let name = document.getElementById("signup-name").value.trim();
     let email = document.getElementById("signup-email").value.trim();
     let password = document.getElementById("signup-password").value.trim();
     let confirmPassword = document.getElementById("signup-confirm-password").value.trim(); // New Confirm Password Field
@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     if (!isValidPassword(password)) {
-        alert("Password must be exactly 6 characters long and contain at least one letter and one number.");
+        alert("Password must be atleast 6 characters long and contain at least one letter and one number.");
         return;
     }
 

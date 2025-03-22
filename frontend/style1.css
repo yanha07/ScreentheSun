@@ -80,6 +80,7 @@ body {
     font-size: 1.5rem;
     font-weight: bold;
 }
+
 .cta-button {
     padding: 14px 28px;
     background: linear-gradient(90deg, #f4f7f8, #bdf6fd); /* Golden yellow to peach-pink */
