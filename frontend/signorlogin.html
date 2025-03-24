@@ -21,17 +21,26 @@
         </div>
         
         <form id="login-form">
-            <input type="email" id="login-email" placeholder="Email" required>
-            <input type="password" id="login-password" placeholder="Password" required>
+            <input type="email" id="login-email" placeholder="Email" required aria-describedby="login-email-error">
+            <div id="login-email-error" class="error-message" style="display: none;"></div>
+            <input type="password" id="login-password" placeholder="Password" required aria-describedby="login-password-error">
+            <div id="login-password-error" class="error-message" style="display: none;"></div>
             <button type="submit">Login</button>
+            <div id="loading" class="loading" style="display: none;">Loading...</div>
         </form>
         
         <form id="signup-form" style="display: none;">
-            <input type="text" id="signup-name" placeholder="Name" required>
-            <input type="email" id="signup-email" placeholder="Email" required>
-            <input type="password" id="signup-password" placeholder="Password" required>
-            <input type="password" id="signup-confirm-password" placeholder="Confirm Password" required>
+            <input type="text" id="signup-name" placeholder="Name" required aria-describedby="signup-name-error">
+            <div id="signup-name-error" class="error-message" style="display: none;"></div>
+            <input type="email" id="signup-email" placeholder="Email" required aria-describedby="signup-email-error">
+            <div id="signup-email-error" class="error-message" style="display: none;"></div>
+            <input type="password" id="signup-password" placeholder="Password" required aria-describedby="signup-password-error">
+            <div id="signup-password-error" class="error-message" style="display: none;"></div>
+            <div id="password-strength" class="password-strength" style="display: none;"></div>
+            <input type="password" id="signup-confirm-password" placeholder="Confirm Password" required aria-describedby="signup-confirm-password-error">
+            <div id="signup-confirm-password-error" class="error-message" style="display: none;"></div>
             <button type="submit">Signup</button>
+            <div id="loading" class="loading" style="display: none;">Loading...</div>
         </form>
     </section>
 
@@ -57,6 +66,51 @@
                 }
             });
 
+            // Validation Functions
+            function showError(inputField, message) {
+                const errorMessageDiv = document.getElementById(`${inputField}-error`);
+                errorMessageDiv.textContent = message;
+                errorMessageDiv.style.display = "block"; // Show the error message
+            }
+
+            function clearError(inputField) {
+                const errorMessageDiv = document.getElementById(`${inputField}-error`);
+                errorMessageDiv.textContent = ""; // Clear the message
+                errorMessageDiv.style.display = "none"; // Hide the message
+            }
+
+            function isValidEmail(email) {
+                const emailPattern = /^[a-zA-Z][a-zA-Z0-9._-]*@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?$/;
+                return emailPattern.test(email);
+            }
+
+            function isValidPassword(password) {
+                return password.length >= 6 && /[A-Za-z]/.test(password) && /[0-9]/.test(password) && !/\s/.test(password);
+            }
+
+            function isValidName(name) {
+                return /^[A-Za-z\s]{3,}$/.test(name);
+            }
+
+            // Dynamic Validation for Login Form
+            document.getElementById("login-email").addEventListener("input", function () {
+                const email = this.value.trim();
+                if (!isValidEmail(email)) {
+                    showError("login-email", "Please enter a valid email address.");
+                } else {
+                    clearError("login-email");
+                }
+            });
+
+            document.getElementById("login-password").addEventListener("input", function () {
+                const password = this.value.trim();
+                if (!isValidPassword(password)) {
+                    showError("login-password", "Password must be at least 6 characters long and contain at least one letter and one number.");
+                } else {
+                    clearError("login-password");
+                }
+            });
+
             // Login Form Submission
             loginForm.addEventListener("submit", async (e) => {
                 e.preventDefault();
@@ -74,12 +128,76 @@
                     if (res.ok) {
                         alert("Login successful!");
                         localStorage.setItem("token", data.token);
+                        window.location.href = "index1.html"; // Redirect to index1.html
                     } else {
-                        alert(data.error);
+                        showError("login-email", data.error || "An error occurred. Please try again.");
                     }
                 } catch (error) {
                     console.error("Login error:", error);
                 }
+            });
+
+            // Dynamic Validation for Signup Form
+            document.getElementById("signup-name").addEventListener("input", function () {
+                const name = this.value.trim();
+                if (!isValidName(name)) {
+                    showError("signup-name", "Name must be at least 3 characters long and contain only letters.");
+                } else {
+                    clearError("signup-name");
+                }
+            });
+
+            document.getElementById("signup-email").addEventListener("input", function () {
+                const email = this.value.trim();
+                if (!isValidEmail(email)) {
+                    showError("signup-email", "Please enter a valid email address.");
+                } else {
+                    clearError("signup-email");
+                }
+            });
+
+            document.getElementById("signup-password").addEventListener("input", function () {
+                const password = this.value.trim();
+                if (!isValidPassword(password)) {
+                    showError("signup-password", "Password must be at least 6 characters long and contain at least one letter and one number.");
+                } else {
+                    clearError("signup-password");
+                }
+            });
+
+            document.getElementById("signup-confirm-password").addEventListener("input", function () {
+                const password = document.getElementById("signup-password").value.trim();
+                const confirmPassword = this.value.trim();
+                if (confirmPassword !== password) {
+                    showError("signup-confirm-password", "Passwords do not match. Please enter the same password.");
+                } else {
+                    clearError("signup-confirm-password");
+                }
+            });
+
+            // Password Strength Indicator
+            function updatePasswordStrength(password) {
+                const strengthIndicator = document.getElementById("password-strength");
+                let strength = "Weak";
+                let color = "red";
+
+                if (password.length >= 8 && /[A-Za-z]/.test(password) && /[0-9]/.test(password)) {
+                    strength = "Medium";
+                    color = "orange";
+                }
+                if (password.length >= 10 && /[A-Za-z]/.test(password) && /[0-9]/.test(password) && /[!@#$%^&*]/.test(password)) {
+                    strength = "Strong";
+                    color = "green";
+                }
+
+                strengthIndicator.textContent = `Password Strength: ${strength}`;
+                strengthIndicator.style.color = color;
+                strengthIndicator.style.display = "block";
+            }
+
+            document.getElementById("signup-password").addEventListener("input", function () {
+                const password = this.value.trim();
+                updatePasswordStrength(password);
             });
 
             // Signup Form Submission
@@ -103,7 +221,7 @@
                         signupForm.reset();
                         toggleAuthBtn.click(); // Switch to login form
                     } else {
-                        alert(data.error);
+                        showError("signup-email", data.error || "An error occurred. Please try again.");
                     }
                 } catch (error) {
                     console.error("Signup error:", error);

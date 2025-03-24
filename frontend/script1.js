@@ -1,23 +1,22 @@
+// Function to scroll to the signup section
 function scrollToSignup() {
-    window.location.href = "signorlogin.html";
+    const signupSection = document.getElementById('signup-form');
+    if (signupSection) {
+        signupSection.scrollIntoView({ behavior: 'smooth' });
+    }
 }
 
+// Wait for the DOM to fully load
 document.addEventListener("DOMContentLoaded", function () {
     const toggleButton = document.getElementById("toggle-auth");
     const loginForm = document.getElementById("login-form");
     const signupForm = document.getElementById("signup-form");
     const authTitle = document.getElementById("auth-title");
 
-    // Redirect to signup if "?mode=signup" is in URL
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get("mode") === "signup") {
-        loginForm.style.display = "none";
-        signupForm.style.display = "block";
-        authTitle.textContent = "Signup";
-        toggleButton.textContent = "Switch to Login";
-    }
+    // Initially hide the signup form
+    signupForm.style.display = "none";
 
-    // Toggle between login and signup
+    // Toggle between login and signup forms
     toggleButton.addEventListener("click", function () {
         if (loginForm.style.display === "none") {
             loginForm.style.display = "block";
@@ -29,103 +28,143 @@ document.addEventListener("DOMContentLoaded", function () {
             signupForm.style.display = "block";
             authTitle.textContent = "Signup";
             toggleButton.textContent = "Switch to Login";
+            scrollToSignup(); // Scroll to the signup section
         }
     });
 
-    // Enhanced Email Validation
-    function isValidEmail(email) {
-        const emailPattern = /^[a-zA-Z][a-zA-Z0-9._-]*@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?$/;
-        if (!emailPattern.test(email)) return false;
-        if (email.includes("..")) return false;
-        if (email.startsWith(".") || email.startsWith("-") || email.endsWith(".") || email.endsWith("-")) return false;
-        if (email.includes(" ")) return false;
-
-        const domainParts = email.split("@")[1].split(".");
-        if (domainParts[0].length < 2) return false;
-
-        return true;
+    // Function to show error messages
+    function showError(inputField, message) {
+        const errorMessageDiv = document.getElementById(`${inputField}-error`);
+        errorMessageDiv.textContent = message;
+        errorMessageDiv.style.display = "block"; // Show the error message
     }
 
-    // Password Validation
+    // Function to clear error messages
+    function clearError(inputField) {
+        const errorMessageDiv = document.getElementById(`${inputField}-error`);
+        errorMessageDiv.textContent = ""; // Clear the message
+        errorMessageDiv.style.display = "none"; // Hide the message
+    }
+
+    // Validation Functions
+    function isValidEmail(email) {
+        const emailPattern = /^[a-zA-Z][a-zA-Z0-9._-]*@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?$/;
+        return emailPattern.test(email);
+    }
+
     function isValidPassword(password) {
         return password.length >= 6 && /[A-Za-z]/.test(password) && /[0-9]/.test(password) && !/\s/.test(password);
     }
 
-    // Name Validation
     function isValidName(name) {
         return /^[A-Za-z\s]{3,}$/.test(name);
     }
 
-    // Handle signup form submission
-    document.getElementById("signup-form").addEventListener("submit", function (event) {
-        event.preventDefault();
-
-    let name = document.getElementById("signup-name").value.trim();
-    let email = document.getElementById("signup-email").value.trim();
-    let password = document.getElementById("signup-password").value.trim();
-    let confirmPassword = document.getElementById("signup-confirm-password").value.trim(); // New Confirm Password Field
-
-    if (!isValidName(name)) {
-        alert("Name must be at least 3 characters long and contain only letters.");
-        return;
-    }
-
-    if (!isValidEmail(email)) {
-        alert("Please enter a valid email address.");
-        return;
-    }
-
-    if (!isValidPassword(password)) {
-        alert("Password must be atleast 6 characters long and contain at least one letter and one number.");
-        return;
-    }
-
-    if (password !== confirmPassword) { // Confirm Password Validation
-        alert("Passwords do not match. Please enter the same password.");
-        return;
-    }
-
-    alert(`Welcome, ${name}! You have signed up with email: ${email}`);
+    // Validate fields dynamically
+    document.getElementById("signup-name").addEventListener("input", function () {
+        const name = this.value.trim();
+        if (!isValidName(name)) {
+            showError("signup-name", "Name must be at least 3 characters long and contain only letters.");
+        } else {
+            clearError("signup-name");
+        }
     });
 
-    // Handle login form submission
-    document.getElementById("login-form").addEventListener("submit", function (event) {
-        event.preventDefault();
+    document.getElementById("signup-email").addEventListener("input", function () {
+        const email = this.value.trim();
+        if (!isValidEmail(email)) {
+            showError("signup-email", "Please enter a valid email address.");
+        } else {
+            clearError("signup-email");
+        }
+    });
 
-        let email = document.getElementById("login-email").value.trim();
-        let password = document.getElementById("login-password").value.trim();
+    document.getElementById("signup-password").addEventListener("input", function () {
+        const password = this.value.trim();
+        if (!isValidPassword(password)) {
+            showError("signup-password", "Password must be at least 6 characters long and contain at least one letter and one number.");
+        } else {
+            clearError("signup-password");
+        }
+    });
+
+    document.getElementById("signup-confirm-password").addEventListener("input", function () {
+        const password = document.getElementById("signup-password").value.trim();
+        const confirmPassword = this.value.trim();
+        if (confirmPassword !== password) {
+            showError("signup-confirm-password", "Passwords do not match. Please enter the same password.");
+        } else {
+            clearError("signup-confirm-password");
+        }
+    });
+
+    // Handle signup form submission
+    signupForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+        clearError("signup-name");
+        clearError("signup-email");
+        clearError("signup-password");
+        clearError("signup-confirm-password");
+
+        const name = document.getElementById("signup-name").value.trim();
+        const email = document.getElementById("signup-email").value.trim();
+        const password = document.getElementById("signup-password").value.trim();
+        const confirmPassword = document.getElementById("signup-confirm-password").value.trim();
+
+        let isValid = true; // Track overall validity
+
+        if (!isValidName(name)) {
+            showError("signup-name", "Name must be at least 3 characters long and contain only letters.");
+            isValid = false;
+        }
 
         if (!isValidEmail(email)) {
-            alert("Please enter a valid email address.");
-            return;
+            showError("signup-email", "Please enter a valid email address.");
+            isValid = false;
         }
 
         if (!isValidPassword(password)) {
-            alert("Password must be exactly 6 characters long and contain at least one letter and one number.");
-            return;
+            showError("signup-password", "Password must be at least 6 characters long and contain at least one letter and one number.");
+            isValid = false;
         }
 
-        alert(`Login successful for email: ${email}`);
+        if (password !== confirmPassword) {
+            showError("signup-confirm-password", "Passwords do not match. Please enter the same password.");
+            isValid = false;
+        }
+
+        if (isValid) {
+            alert(`Welcome, ${name}! You have signed up with email: ${email}`);
+            // Here you can add code to send the signup data to your server
+            signupForm.reset(); // Reset the form after successful submission
+        }
     });
 
-    // 🟢 Sunscreen Filter Logic
-    const spfFilter = document.getElementById("spf");
-    const skinTypeFilter = document.getElementById("skinType");
-    const sunscreenCards = document.querySelectorAll(".sunscreen-card");
+    // Handle login form submission
+    loginForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+        clearError("login-email");
+        clearError("login-password");
 
-    function filterSunscreens() {
-        const selectedSPF = spfFilter.value.toLowerCase();
-        const selectedSkinType = skinTypeFilter.value.toLowerCase();
+        const email = document.getElementById("login-email").value.trim();
+        const password = document.getElementById("login-password").value.trim();
 
-        sunscreenCards.forEach(card => {
-            const details = card.querySelector("p").textContent.toLowerCase();
-            const matchesSPF = selectedSPF === "all" || details.includes(`spf ${selectedSPF}`) || details.includes(`spf${selectedSPF}`);
-            const matchesSkinType = selectedSkinType === "all" || details.includes(selectedSkinType);
+        let isValid = true; // Track overall validity
 
-            card.style.display = matchesSPF && matchesSkinType ? "block" : "none";
-        });
-    }
+        if (!isValidEmail(email)) {
+            showError("login-email", "Please enter a valid email address.");
+            isValid = false;
+        }
 
-    spfFilter.addEventListener("change", filterSunscreens);
-    skinTypeFilter.addEventListener("change", filterSunscreens);
+        if (!isValidPassword(password)) {
+            showError("login-password", "Password must be at least 6 characters long and contain at least one letter and one number.");
+            isValid = false;
+        }
+
+        if (isValid) {
+            alert(`Login successful for email: ${email}`);
+            // Here you can add code to send the login data to your server
+            loginForm.reset(); // Reset the form after successful submission
+        }
+    });
 });

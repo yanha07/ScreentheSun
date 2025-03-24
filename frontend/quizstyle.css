@@ -71,6 +71,12 @@
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
     color: #fff;
 }
+footer {
+    text-align: center;
+    padding: 10px;
+    background: #333;
+    color: white;
+}
 
 /* Responsive Design */
 @media screen and (max-width: 768px) {

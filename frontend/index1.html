@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ScreenTheSun</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="style1.css">
     <script defer src="script1.js"></script>
 </head>
@@ -19,50 +20,117 @@
         </nav>
     </header>
 
-    <section id="home" class="hero">
-        <h1>Welcome to ScreenTheSun!</h1>
-        <p>Your personalized sunscreen recommendation platform</p>
-        <button class="cta-button" onclick="scrollToSignup()">☀️ Get Started</button>
-    </section>
-
-    <section id="about" class="container">
-        <h2>What ScreenTheSun Offers</h2>
-        <p>ScreenTheSun is your go-to source for tracking UV exposure and protecting your skin while enjoying the outdoors. We provide:</p>
-        <div class="features">
-            <div class="feature-box">
-                <h3>🌞 Real-Time UV Index</h3>
-                <p>Get the latest UV index for your location.</p>
-            </div>
-            <div class="feature-box">
-                <h3>🧴 Sunscreen Suggestions</h3>
-                <p>We recommend the best sunscreen based on the UV level.</p>
-            </div>
-            <div class="feature-box">
-                <h3>⏰ Sun Protection Reminders</h3>
-                <p>Timely alerts to apply sunscreen and stay safe.</p>
-            </div>
-            <div class="feature-box">
-                <h3>🏞️ Optimal Outdoor Times</h3>
-                <p>Find out the best times for outdoor activities.</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="uv-alerts" class="container">
-        <h2>UV Alerts</h2>
-        <p>Stay updated with real-time UV index alerts.</p>
-    </section>
-
-    <section id="quiz" class="container" onclick="window.location.href='quiz.html'" style="cursor: pointer;">
-        <h2>What is your Skintype?</h2>
-        <p>Answer a few questions to determine your skin type.</p>
-    </section>
-
-    <section id="recommendations" class="container" onclick="window.location.href='recommendations.html'" style="cursor: pointer;">
-        <h2>Recommended Sunscreens</h2>
-        <p>Your general sunscreen recommendations will appear here.</p>
-    </section>
+    <main> 
     
+          <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel" data-bs-interval="3000">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active" data-bs-interval="3000">
+                    <img src="https://i.pinimg.com/736x/a7/56/9d/a7569dcac8b10c77fedfedece224a7cf.jpg" class="d-block w-100" style="height: 400px; object-fit: cover;" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h1>Welcome to ScreenTheSun!</h1>
+                        <h3>Your personalized sunscreen recommendation platform</h3>
+                        <button class="cta-button" onclick="window.location.href='signorlogin.html'">☀️ Get Started</button>
+                    </div>
+                </div>
+                <div class="carousel-item" data-bs-interval="3000">
+                    <img src="C:\Desktop\ScreentheSun\frontend\meg-von-haartman-BSU8mI89gmY-unsplash.jpg" class="d-block w-100" style="height: 400px; object-fit: cover;" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h1>Welcome to ScreenTheSun!</h1>
+                        <h3>Your personalized sunscreen recommendation platform</h3>
+                        <button class="cta-button" onclick="window.location.href='signorlogin.html'">☀️ Get Started</button>
+                    </div>
+                </div>
+                <div class="carousel-item" data-bs-interval="3000">
+                    <img src="C:\Desktop\ScreentheSun\frontend\jack-barton-rHWju2jKbRk-unsplash.jpg" class="d-block w-100" style="height: 400px; object-fit: cover;" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h1>Welcome to ScreenTheSun!</h1>
+                        <h3>Your personalized sunscreen recommendation platform</h3>
+                        <button class="cta-button" onclick="window.location.href='signorlogin.html'">☀️ Get Started</button>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
 
+        <section id="about" class="container">
+            <h2>What ScreenTheSun Offers</h2>
+            <p>ScreenTheSun is your go-to source for tracking UV exposure and protecting your skin while enjoying the outdoors. We provide:</p>
+            <div class="features">
+                <div class="feature-box">
+                    <h2>🌞 Real-Time UV Index</h2>
+                    <p>Get the latest UV index for your location.</p>
+                </div>
+                <div class="feature-box">
+                    <h2>🧴 Sunscreen Suggestions</h2>
+                    <p>We recommend the best sunscreen based on the UV level.</p>
+                </div>
+                <div class="feature-box">
+                    <h2>⏰ Sun Protection Reminders</h2>
+                    <p>Timely alerts to apply sunscreen and stay safe.</p>
+                </div>
+                <div class="feature-box">
+                    <h2>🏞️ Optimal Outdoor Times</h2>
+                    <p>Find out the best times for outdoor activities.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="uv-alerts" class="container" onclick="window.location.href='uv.html'" style="cursor: pointer;">
+            <h2>UV Alerts</h2>
+            <p>Stay updated with real-time UV index alerts.</p>
+        </section>
+
+        <section id="quiz" class="container" onclick="window.location.href='quiz.html'" style="cursor: pointer;">
+            <h2>What is your Skintype?</h2>
+            <p>Answer a few questions to determine your skin type.</p>
+        </section>
+
+        <section id="recommendations" class="container" onclick="window.location.href='recommendations.html'" style="cursor: pointer;">
+            <h2>Recommended Sunscreens</h2>
+            <p>Your general sunscreen recommendations will appear here.</p>
+        </section>
+
+        <!-- Added Login and Signup Forms -->
+        <div id="auth-container" style="display: none;">
+            <div id="login-form">
+                <h2>Login</h2>
+                <form>
+                    <input type="email" id="login-email" placeholder="Email" required>
+                    <input type="password" id="login-password" placeholder="Password" required>
+                    <button type="submit">Login</button>
+                </form>
+            </div>
+            <div id="signup-form" style="display: none;">
+                <h2>Signup</h2>
+                <form>
+                    <input type="text" id="signup-name" placeholder="Name" required>
+                    <input type="email" id="signup-email" placeholder="Email" required>
+                    <input type="password" id="signup-password" placeholder="Password" required>
+                    <input type="password" id="signup-confirm-password" placeholder="Confirm Password" required>
+                    <button type="submit">Signup</button>
+                </form>
+            </div>
+            <button id="toggle-auth">Switch to Signup</button>
+            <h2 id="auth-title">Login</h2>
+        </div>
+       
+    </main>
+
+    <footer>
+        <p>&copy; 2025 ScreenTheSun. All Rights Reserved.</p>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>

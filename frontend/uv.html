@@ -10,7 +10,7 @@
     <header class="header">
         <img src="suntracklogo.jpg" alt="ScreenTheSun Logo" class="logo">
         <nav class="navbar">
-            <a href="index.html">Home</a>
+            <a href="index1.html">Home</a>
             <a href="signorlogin.html">Login</a> 
             <a href="quiz.html">Quiz</a>
             <a href="recommendations.html">Recommendations</a>
@@ -20,32 +20,75 @@
 
     <div class="alert-container">
         <h2>UV Alert</h2>
-        <p class="uv-index">Current UV Index: <span id="uv-value">5</span></p>
-        <p class="alert-message moderate" id="alert-message">Moderate risk: Wear sunglasses and apply SPF 30+ sunscreen.</p>
+        <p class="uv-index">Current UV Index: <span id="uv-value">Loading...</span></p>
+        <p class="alert-message" id="alert-message">Loading...</p>
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            let uvIndex = 5; // This should be dynamically set based on real-time data
-            let message = "";
-            let messageClass = "";
+        async function fetchUVIndex(lat, lon) {
+            try {
+                const response = await fetch(`http://localhost:8000/api/v1/uv-alerts?lat=${lat}&lon=${lon}`); // Fetching from your backend with coordinates
+                const data = await response.json();
 
-            if (uvIndex <= 2) {
-                message = "Low risk: Enjoy the sun safely.";
-                messageClass = "low";
-            } else if (uvIndex <= 5) {
-                message = "Moderate risk: Wear sunglasses and apply SPF 30+ sunscreen.";
-                messageClass = "moderate";
-            } else {
-                message = "High risk: Stay in the shade, wear protective clothing, and use SPF 50+ sunscreen.";
-                messageClass = "high";
+                const uvIndex = data.uvIndex; // Get the UV index from the response
+                const message = getUVMessage(uvIndex);
+                const messageClass = getMessageClass(uvIndex);
+
+                document.getElementById("uv-value").textContent = uvIndex;
+                let alertMessage = document.getElementById("alert-message");
+                alertMessage.textContent = message;
+                alertMessage.className = "alert-message " + messageClass;
+
+            } catch (error) {
+                console.error('Error fetching UV index:', error);
+                document.getElementById("uv-value").textContent = "Error";
+                document.getElementById("alert-message").textContent = "Unable to fetch UV index.";
             }
+        }
 
-            document.getElementById("uv-value").textContent = uvIndex;
-            let alertMessage = document.getElementById("alert-message");
-            alertMessage.textContent = message;
-            alertMessage.className = "alert-message " + messageClass;
-        });
+        function getUVMessage(uvIndex) {
+            if (uvIndex <= 2) {
+                return "Low risk: Enjoy the sun safely.";
+            } else if (uvIndex <= 5) {
+                return "Moderate risk: Wear sunglasses and apply SPF 30+ sunscreen.";
+            } else {
+                return "High risk: Stay in the shade, wear protective clothing, and use SPF 50+ sunscreen.";
+            }
+        }
+
+        function getMessageClass(uvIndex) {
+            if (uvIndex <= 2) {
+                return "low";
+            } else if (uvIndex <= 5) {
+                return "moderate";
+            } else {
+                return "high";
+            }
+        }
+
+        // Get user's location and fetch UV index
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(position => {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+                    fetchUVIndex(lat, lon); // Fetch UV index with user's coordinates
+                }, () => {
+                    document.getElementById("uv-value").textContent = "Unable to retrieve location.";
+                    document.getElementById("alert-message").textContent = "Please allow location access.";
+                });
+            } else {
+                document.getElementById("uv-value").textContent = "Geolocation is not supported by this browser.";
+                document.getElementById("alert-message").textContent = "Unable to retrieve location.";
+            }
+        }
+
+        // Fetch UV index on page load
+        document.addEventListener("DOMContentLoaded", getLocation);
     </script>
+
+    <footer>
+        <p>&copy; 2025 ScreenTheSun. All Rights Reserved.</p>
+    </footer>
 </body>
 </html>

@@ -1,4 +1,3 @@
-
 import express from 'express';
 import { signup, login } from '../controllers/userController.js';  // Add .js extension
 
@@ -9,3 +8,6 @@ router.post('/signup', signup);
 router.post('/login', login);
 
 export default router;
+
+
+
