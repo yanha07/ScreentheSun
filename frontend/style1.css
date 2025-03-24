@@ -175,7 +175,7 @@ h1 {
 }
 
 .sunscreen-card:hover {
-    transform: scale(1.05);
+    transform: scale(1.00);
 }
 
 .sunscreen-card img {
@@ -261,7 +261,7 @@ form button:hover {
 }
 #toggle-auth:hover {
     background: linear-gradient(90deg, #fef1d8c9, #d9f5ff); /* Lighter warm yellow to softer blue */
-    transform: scale(1.05);
+    transform: scale(1.00);
 }
 footer {
     text-align: center;

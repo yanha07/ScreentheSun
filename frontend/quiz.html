@@ -6,19 +6,23 @@
     <title>Skin Type Quiz</title>
     <link rel="stylesheet" href="quizstyle.css">
     <link rel="stylesheet" href="style1.css">
+    <script defer src="script1.js"></script>
+    <script defer src="scriptquiz.js"></script>
 </head>
 <body>
     <header class="header">
         <img src="suntracklogo.jpg" alt="ScreenTheSun Logo" class="logo">
         <nav class="navbar">
-            <a href="index1.html#home">Home</a>
-            <a href="index1.html#quiz">Quiz</a>
-            <a href="index1.html#recommendations">Recommendations</a>
-            <a href="index1.html#uv-alerts">UV Alerts</a>
+            <a href="index1.html">Home</a>
+            <a href="signorlogin.html">Login</a> 
+            <a href="quiz.html">Quiz</a>
+            <a href="recommendations.html">Recommendations</a>
+            <a href="uv.html">UV Alerts</a>
         </nav>
     </header>
+    
     <div class="quiz-container">
-        <h1>Find Your Skin Type</h1>
+        <h1>Tell Us About Your Skin </h1>
         <form id="skinQuiz">
             <label>1. What is your natural skin color when unexposed to the sun?</label><br>
             <select id="q1">
@@ -92,10 +96,46 @@
 
             <button type="submit">Get My Sunscreen Recommendation</button>
         </form>
-        <div id="result"></div>
+        <div id="result">
+            <div id="recommendations" style="display: none;">
+                <h2>Sunscreen Recommendations</h2>
+                <p id="sunscreen-message"></p>
+            </div>
+        </div>
+        <script>
+            document.getElementById("skinQuiz").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    // Get user inputs
+    let skinType = document.getElementById("q3").value;
+    let acneProne = document.getElementById("q4").value;
+    let sensitiveSkin = document.getElementById("q5").value;
+
+    let recommendation = "Use a broad-spectrum sunscreen with SPF 30+.";
+
+    // Simple conditions for dummy recommendations
+    if (skinType === "oily") {
+        recommendation = "For oily skin, use an oil-free, matte finish sunscreen (SPF 50+).";
+    } else if (skinType === "dry") {
+        recommendation = "For dry skin, use a moisturizing sunscreen with hyaluronic acid (SPF 30+).";
+    }
+
+    if (acneProne === "yes") {
+        recommendation += " Choose a non-comedogenic sunscreen to prevent breakouts.";
+    }
+
+    if (sensitiveSkin === "yes") {
+        recommendation += " A mineral sunscreen (zinc oxide or titanium dioxide) is best for sensitive skin.";
+    }
+
+    // Display recommendation
+    document.getElementById("sunscreen-message").textContent = recommendation;
+    document.getElementById("recommendations").style.display = "block";
+});
+
+        </script>
     </div>
-    <script src="script1.js"></script>
-    <footer>
+   <footer>
         <p>&copy; 2025 ScreenTheSun. All Rights Reserved.</p>
     </footer>
 </body>

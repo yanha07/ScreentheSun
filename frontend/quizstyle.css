@@ -1,6 +1,13 @@
 /* Skin Type Quiz Page Styling */
+body {
+    background-image: url('quiz.jpg'); /* Replace with your image path */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
 .quiz-container {
-    background: rgba(227, 247, 255, 0.837);
+    background: rgba(255, 255, 255, 0.85);
     padding: 25px;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
@@ -13,12 +20,12 @@
     justify-content: center;
     align-items: center;
     padding: 40px;
-    transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+    transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
 }
 .quiz-container:hover {
-    transform: scale(1.05);
+    transform: scale(1.02);
     box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
-    background: linear-gradient(135deg, #d6f1ff, #fefaff);
+    background: linear-gradient(135deg, #ffedd6, #fefaff);
     cursor: pointer;
 }
 .quiz-container h1 {

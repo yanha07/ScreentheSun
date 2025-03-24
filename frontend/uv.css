@@ -2,57 +2,27 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background: linear-gradient(to bottom, hsl(50, 80%, 84%), hwb(359 74% 4%));
-    color: #333;
+    background: url('sun2.webp') no-repeat center center fixed; /* Background image */
+    background-size: cover; /* Cover the entire background */
+    color: #302b6e;
     text-align: center;
-}
-
-/* Header Styles */
-.header {
-    background-color: rgba(255, 255, 255, 0.9);
-    padding: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.logo {
-    height: 50px;
-    margin-left: 20px;
-}
-
-.navbar {
-    display: flex;
-    gap: 15px;
-}
-
-.navbar a {
-    text-decoration: none;
-    color: #333;
-    font-weight: bold;
-    padding: 10px 15px;
-    transition: 0.3s ease-in-out;
-}
-
-.navbar a:hover {
-    background-color: rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
 }
 
 /* UV Alert Section */
 .alert-container {
+    position: relative;
+    top: 50px; /* Moves the box down */    
     margin: 50px auto;
     padding: 20px;
     max-width: 500px;
-    background: #fff;
+    background: #d4f5f3ba;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     text-align: center;
 }
 
 .alert-container h2 {
-    color: hsl(2, 64%, 58%);
+    color: hsl(0, 47%, 36%);
 }
 
 .uv-index {
@@ -72,28 +42,22 @@ body {
 
 /* UV Risk Levels */
 .low {
-    background-color: #5cb85c;
+    background-color: #5aab50;
     color: white;
 }
 
 .moderate {
-    background-color: #f0ad4e;
-    color: white;
+    background-color: #efad74da;
+    color: rgb(25, 35, 13);
 }
 
 .high {
-    background-color: #d9534f;
-    color: white;
-}
-footer {
-    text-align: center;
-    padding: 10px;
-    background: #333;
+    background-color: #9fb7ae;
     color: white;
 }
 
-/* Responsive Design */
-@media (max-width: 600px) {
+
+/* @media (max-width: 600px) {
     .navbar {
         flex-direction: column;
         gap: 10px;
@@ -102,4 +66,14 @@ footer {
     .alert-container {
         width: 90%;
     }
+} */
+
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    background: #333;
+    color: white;
 }
