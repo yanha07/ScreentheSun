@@ -17,6 +17,7 @@ router.get('/', async (req, res) => {
 
     try {
         const response = await axios.get(`https://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${lon}&appid=${'825d06a879d70373e1ddeb1f9937e99f'}`);
+        console.log(response.data);
         const uvIndex = response.data.value; // Extract the UV index value
         res.json({ uvIndex });
     } catch (error) {

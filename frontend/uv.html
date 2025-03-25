@@ -26,27 +26,31 @@
     </div>
 
     <script>
-        async function fetchUVIndex(lat, lon) {
-            try {
-                const response = await fetch(`http://localhost:8000/api/v1/uv-alerts?lat=${lat}&lon=${lon}`); // Fetching from your backend with coordinates
-                const data = await response.json();
+      async function fetchUVIndex(lat, lon) {
+    try {
+        const response = await fetch(`http://localhost:8000/api/v1/uv-alerts?lat=${lat}&lon=${lon}`);
+        const data = await response.json();
 
-                const uvIndex = data.uvIndex; // Get the UV index from the response
-                const message = getUVMessage(uvIndex);
-                const messageClass = getMessageClass(uvIndex);
-
-                document.getElementById("uv-value").textContent = uvIndex;
-                let alertMessage = document.getElementById("alert-message");
-                alertMessage.textContent = message;
-                alertMessage.className = "alert-message " + messageClass;
-
-            } catch (error) {
-                console.error('Error fetching UV index:', error);
-                document.getElementById("uv-value").textContent = "Error";
-                document.getElementById("alert-message").textContent = "Unable to fetch UV index.";
-            }
+        if (!response.ok) {
+            throw new Error(data.error || 'Failed to fetch UV index');
         }
 
+        const uvIndex = data.uvIndex; // Get the UV index from the response
+        const message = getUVMessage(uvIndex);
+        const messageClass = getMessageClass(uvIndex);
+
+        document.getElementById("uv-value").textContent = uvIndex;
+        let alertMessage = document.getElementById("alert-message");
+        alertMessage.textContent = message;
+        alertMessage.className = "alert-message " + messageClass;
+
+    } catch (error) {
+        console.error('Error fetching UV index:', error);
+        document.getElementById("uv-value").textContent = "Error";
+        document.getElementById("alert-message").textContent = "Unable to fetch UV index.";
+    }
+}
+    
         function getUVMessage(uvIndex) {
             if (uvIndex <= 2) {
                 return "Low risk: Enjoy the sun safely.";
@@ -56,7 +60,7 @@
                 return "High risk: Stay in the shade, wear protective clothing, and use SPF 50+ sunscreen.";
             }
         }
-
+    
         function getMessageClass(uvIndex) {
             if (uvIndex <= 2) {
                 return "low";
@@ -66,14 +70,32 @@
                 return "high";
             }
         }
+    
+        function isDaytime() {
+    const currentHour = new Date().getHours(); // Get current hour in UTC
+    return currentHour >= 6 && currentHour < 18; // Assuming daytime is between 6 AM and 6 PM UTC
+}
 
-        // Get user's location and fetch UV index
+        function startFetchingUVIndex(lat, lon) {
+         if (isDaytime()) {
+        fetchUVIndex(lat, lon); // Initial fetch
+        setInterval(() => {
+            if (isDaytime()) {
+                fetchUVIndex(lat, lon); // Fetch every 10 minutes (600000 ms)
+            }
+        }, 600000);
+     } else {
+        document.getElementById("uv-value").textContent = "UV index is not available at night.";
+        document.getElementById("alert-message").textContent = "Please check during daylight hours.";
+    }
+}
+    
         function getLocation() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(position => {
                     const lat = position.coords.latitude;
                     const lon = position.coords.longitude;
-                    fetchUVIndex(lat, lon); // Fetch UV index with user's coordinates
+                    startFetchingUVIndex(lat, lon); // Start fetching UV index with user's coordinates
                 }, () => {
                     document.getElementById("uv-value").textContent = "Unable to retrieve location.";
                     document.getElementById("alert-message").textContent = "Please allow location access.";
@@ -83,7 +105,7 @@
                 document.getElementById("alert-message").textContent = "Unable to retrieve location.";
             }
         }
-
+    
         // Fetch UV index on page load
         document.addEventListener("DOMContentLoaded", getLocation);
     </script>
