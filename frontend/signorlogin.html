@@ -68,16 +68,17 @@
 
             // Validation Functions
             function showError(inputField, message) {
-                const errorMessageDiv = document.getElementById(`${inputField}-error`);
-                errorMessageDiv.textContent = message;
-                errorMessageDiv.style.display = "block"; // Show the error message
-            }
+    const errorMessageDiv = document.getElementById(`${inputField}-error`);
+    errorMessageDiv.textContent = message;
+    errorMessageDiv.style.display = "block"; // Show the error message
+}
 
-            function clearError(inputField) {
-                const errorMessageDiv = document.getElementById(`${inputField}-error`);
-                errorMessageDiv.textContent = ""; // Clear the message
-                errorMessageDiv.style.display = "none"; // Hide the message
-            }
+function clearError(inputField) {
+    const errorMessageDiv = document.getElementById(`${inputField}-error`);
+    errorMessageDiv.textContent = ""; // Clear the message
+    errorMessageDiv.style.display = "none"; // Hide the message
+}
+
 
             function isValidEmail(email) {
                 const emailPattern = /^[a-zA-Z][a-zA-Z0-9._-]*@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?$/;
@@ -116,7 +117,8 @@
                 e.preventDefault();
                 const email = document.getElementById("login-email").value;
                 const password = document.getElementById("login-password").value;
-
+                clearError("login-email");
+                clearError("login-password");
                 try {
                     const res = await fetch("http://localhost:8000/api/v1/userRoutes/login", {
                         method: "POST",
@@ -130,12 +132,18 @@
                         localStorage.setItem("token", data.token);
                         window.location.href = "index1.html"; // Redirect to index1.html
                     } else {
-                        showError("login-email", data.error || "An error occurred. Please try again.");
-                    }
-                } catch (error) {
-                    console.error("Login error:", error);
-                }
-            });
+            // If response is not OK (e.g., incorrect credentials)
+            if (data.error) {
+                showError("login-email", data.error); // Show error in the email field (or modify as needed)
+            } else {
+                showError("login-password", "Invalid credentials. Please try again.");
+            }
+        }
+    } catch (error) {
+        console.error("Login error:", error);
+        showError("login-email", "An error occurred. Please try again later.");
+    }
+});
 
             // Dynamic Validation for Signup Form
             document.getElementById("signup-name").addEventListener("input", function () {
